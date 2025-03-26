@@ -1,3 +1,4 @@
+from string import whitespace
 
 import pygame
 import random
@@ -9,16 +10,19 @@ wysokosc_okna = 700
 okno = pygame.display.set_mode((szerokosc_okna, wysokosc_okna))
 pygame.display.set_caption("Flappy Birdzik")
 
-tlo = pygame.image.load('flappy bird background.jpg')
+tlo = pygame.image.load('background2.jpg')
 tlo = pygame.transform.scale(tlo, (szerokosc_okna, wysokosc_okna))
-ptak_obraz = pygame.image.load('pngegg.png')
+ptak_obraz = pygame.image.load('ptak.png')
 ptak_obraz = pygame.transform.scale(ptak_obraz, (80, 60))
+
+rura_obraz = pygame.image.load('rura.png')
+rura_obraz = pygame.transform.scale(rura_obraz, (150, 400))
+rura_obraz_gorna = pygame.transform.flip(rura_obraz, False, True)
 
 bialy = (255, 255, 255)
 czarny = (0, 0, 0)
 zielony = (0, 255, 0)
 czerwony = (255, 0, 0)
-blekitny = (135, 206, 250)
 
 ptak_x = 50
 ptak_y = 300
@@ -27,27 +31,30 @@ grawitacja = 0.5
 skok = -10
 wysokosc_podlogi = 570
 
-
 rura_szerokosc = 60
 rura_x = 400
 rura_wysokosc = random.randint(100, 400)
 przestrzen_miedzy_rurami = 150
-predkosc_rur = 3
+predkosc_rur = 4
 
 punkty = 0
-czcionka = pygame.font.Font(None, 36)
+czcionka = pygame.font.Font(    None, 36,)
 
 fps = 60
 zegar = pygame.time.Clock()
 
 
 def rysuj():
-    okno.blit(tlo, (0,0))
-    pygame.draw.rect(okno, zielony, (rura_x, 0, rura_szerokosc, rura_wysokosc))
-    pygame.draw.rect(okno, zielony, (rura_x, rura_wysokosc + przestrzen_miedzy_rurami, rura_szerokosc, wysokosc_podlogi - rura_wysokosc - przestrzen_miedzy_rurami))
+    okno.blit(tlo, (0, 0))
+
+    okno.blit(rura_obraz_gorna, (rura_x, rura_wysokosc - rura_obraz_gorna.get_height()))
+    okno.blit(rura_obraz, (rura_x, rura_wysokosc + przestrzen_miedzy_rurami))
+
     okno.blit(ptak_obraz, (ptak_x - 20, ptak_y - 15))
+
     tekst = czcionka.render(f"Punkty: {punkty}", True, czarny)
     okno.blit(tekst, (10, 10))
+
     pygame.display.update()
 
 
